@@ -38,6 +38,11 @@ code {
     font-size: 36px;
     text-align: center;
 }
+.wrapper h2 {
+    padding-top: 10px;
+    font-size: 1.5em;
+    text-align: center;
+}
 
 .wrapper .input-box {
     position: relative;
