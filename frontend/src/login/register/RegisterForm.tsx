@@ -13,27 +13,43 @@ const RegisterForm = () => {
                 <h2>to Friends and Places</h2>
                 <div className="input-box">
                     <div className="input-container">
-                        <input type="text" placeholder="Username" required/>
-                        <FaUser className='icon'/>
+                        <input type="text" placeholder="First Name" required/>
+                        <FaUser className='register-icon'/>
                     </div>
                     <div className="input-container">
                         <input type="text" placeholder="Username" required/>
-                        <FaUser className='icon'/>
+                        <FaUser className='register-icon'/>
                     </div>
                 </div>
 
                 <div className="input-box">
-                    <input type="password" placeholder="Password" required/>
-                    <FaLock className='icon'/>
+                    <div className="input-container"><input type="text" placeholder="Surname" required/>
+                        <FaLock className='register-icon'/>
+                    </div>
+                    <div className="input-container"><input type="password" placeholder="Password" required/>
+                        <FaLock className='register-icon'/></div>
+
                 </div>
                 <div className="input-box">
-                    <input type="password" placeholder="Confirm Password" required/>
-                    <TbPassword className='icon'/>
+                    <div className="input-container"><input type="text" placeholder="Username" required/>
+                        <FaUser className='register-icon'/>
+                    </div>
+                    <div className="input-container"></div>
                 </div>
-                <div className="remember-forgot">
-                    <label><input type="checkbox"/>Remember me</label>
+                {/*<div className="remember-forgot">*/}
+                {/*    <label><input type="checkbox"/>Remember me</label>*/}
+                {/*</div>*/}
+                <div className="input-box">
+                    <div className="input-container"><input type="text" placeholder="Blub" required/>
+                        <div><FaLock className='register-icon'/></div>
+
+                    </div>
+                    <div className="input-container">
+                        <button type="submit">Register</button>
+                        {/*Absolutes Kriegsverbrechen, aber funktioniert*/}
+                        <div><FaLock className='register-icon'/></div>
+                    </div>
                 </div>
-                <button type="submit">Register</button>
             </form>
         </div>
     );

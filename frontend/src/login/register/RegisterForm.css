@@ -7,7 +7,6 @@
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
-
 }
 
 .register-wrapper .input-box {
@@ -29,9 +28,10 @@
 }
 
 .register-wrapper button {
-    width: 50%;
+    width: 100%;
     justify-content: center;
-    height: 45px;
+    align-items: center;
+    height: 50px;
     background: #fff;
     border: none;
     outline: none;
@@ -39,4 +39,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     color: #333;
     font-weight: 700;
+    padding: 0 5px 0 5px;
+}
+
+.input-container .register-icon {
+    position: relative;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
 }
