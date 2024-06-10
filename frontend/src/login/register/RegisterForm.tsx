@@ -114,7 +114,7 @@ const RegisterForm: React.FC = () => {
 
                     </div>
                     <div className="input-container">
-                        <button type="submit" disabled={loading}>
+                        <button type="submit" disabled={loading} >
                             {loading ? 'Submitting...' : 'Register'}
                         </button>
                         {/*Absolutes Kriegsverbrechen, aber funktioniert*/}

@@ -12,8 +12,8 @@ import RegisterForm from "./login/register/RegisterForm";
 
 function App() {
     const [theme, colorMode] = useMode();
-    const [nutzername, setNutzername] = useState<string>("tester");
-    const [sessionId, setSessionId] = useState<string>("66b912b3-f3f0-4b9e-9d7d-d65c3b99d69a");
+    const [nutzername, setNutzername] = useState<string>("");
+    const [sessionId, setSessionId] = useState<string>("");
 
     return (
         <React.StrictMode>
@@ -23,16 +23,22 @@ function App() {
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
                         <div className="app">
+                            {sessionId? <>
                             <Sidebar nutzername={nutzername}/>
                             <main className="content">
                                 <Topbar/>
                                 <Routes>
                                     <Route path="/"
                                            element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
-                                    <Route path="/login" element={<LoginForm/>}/>
-                                    <Route path="/register" element={<RegisterForm/>}/>
                                 </Routes>
                             </main>
+                            </>
+                           :
+                                <Routes>
+                                    <Route path="/"
+                                           element={<LoginForm setNutzername={setNutzername} setSessionId={setSessionId}/>}/>
+                                    <Route path="/register" element={<RegisterForm/>}/>
+                                </Routes> }
                         </div>
                     </ThemeProvider>
                 </ColorModeContext.Provider>

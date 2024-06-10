@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {Dispatch, useEffect} from 'react';
 import './LoginForm.css';
 import {FaUser, FaLock} from "react-icons/fa";
 import {LoginFormData} from "../rest/login/LoginFormData";
 import {postForm} from "../rest/UserRestController";
 
-const LoginForm: React.FC = () => {
+type LoginFormProps = {
+    setNutzername: Dispatch<React.SetStateAction<string>>,
+    setSessionId: Dispatch<React.SetStateAction<string>>,
+}
+
+const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
 
     const [formData, setFormData] = React.useState<LoginFormData>({
         loginName: "", passwort: {passwort: ""}
@@ -34,13 +39,17 @@ const LoginForm: React.FC = () => {
         setError(null);
 
         try {
-            const data = await postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login');
+            postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login').then((res: {sessionID: string}) => {
+                setSessionId(res.sessionID);
+                setNutzername(formData.loginName)
+            })
             console.log('Successfully Logged in User');
         } catch (error) {
             console.error(error)
             setError((error as Error).message);
         } finally {
             setLoading(false);
+
         }
     }
 
