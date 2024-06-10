@@ -8,6 +8,7 @@ import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import {ToastContainer} from "react-toastify";
 import LoginForm from "./login/loginForm/LoginForm";
+import StandortAendern from "./standortaendern/StandortAendernForm";
 import RegisterForm from "./login/register/RegisterForm";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                                 <Routes>
                                     <Route path="/"
                                            element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
+                                    <Route path="/standortAendern" element={<StandortAendern nutzername={nutzername} sessionId={sessionId}/>}/>
                                 </Routes>
                             </main>
                             </>
