@@ -1,12 +1,12 @@
-import {RegisterFormData} from "./RegisterFormData";
+import {RegisterFormData} from "./register/RegisterFormData";
 import {Simulate} from "react-dom/test-utils";
-import canPlayThrough = Simulate.canPlayThrough;
 import error = Simulate.error;
+import {AbstractFormLoginData} from "./AbstractFormLoginData";
 
-export const submitForm = async (formData: RegisterFormData): Promise<any> => {
+export const postForm = async (formData: AbstractFormLoginData, url: string): Promise<any> => {
     let response: Response;
     try {
-        response = await fetch(`http://localhost:8080/FAPServer/service/fapservice/addUser`, {
+        response = await fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData)
         })
@@ -23,8 +23,10 @@ export const submitForm = async (formData: RegisterFormData): Promise<any> => {
     const data = await response.json();
     // Super tolles Error Handling yay
     //Sind Statuscodes too much to ask?
-    if (!data.ergebnis) {
-        throw new Error(data.meldung);
-    }
+
+    //Wie kann man einfach nicht konsequent ein scheiß Attribut an der Anfrage lassen (╯°□°)╯︵ ┻━┻
+    // if (data.ergebnis.equals(false)) {
+    //     throw new Error(data.meldung);
+    // }
     return data;
 }

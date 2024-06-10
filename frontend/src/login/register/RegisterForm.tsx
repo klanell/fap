@@ -3,21 +3,21 @@ import '../loginForm/LoginForm.css';
 import './RegisterForm.css';
 
 import {FaLock, FaUser} from "react-icons/fa";
-import {RegisterFormData} from "./rest/RegisterFormData";
-import {submitForm} from "./rest/UserRestController";
+import {RegisterFormData} from "../rest/register/RegisterFormData";
+import {postForm} from "../rest/UserRestController";
 
 const RegisterForm: React.FC = () => {
 
     const [formData, setFormData] = React.useState<RegisterFormData>({
         email: {adresse: ""},
-        land: "",
+        land: "Deutschland",
         loginName: "",
         nachname: "",
-        ort: "Münster",
+        ort: "Großengottern",
         passwort: {passwort: ""},
-        plz: "48167",
-        strasse: "Münsterstrasse",
-        telefon: "02506 112",
+        plz: "99991",
+        strasse: "Marktstraße 48",
+        telefon: "036022 942 0",
         vorname: ""
 
     })
@@ -46,7 +46,6 @@ const RegisterForm: React.FC = () => {
                 };
             }
         });
-        console.log("Ping");
     };
 
     const onPost = async (e: React.FormEvent) => {
@@ -55,7 +54,7 @@ const RegisterForm: React.FC = () => {
         setError(null);
 
         try {
-            const data = await submitForm(formData);
+            const data = await postForm(formData,'http://localhost:8080/FAPServer/service/fapservice/addUser');
             console.log('Successfully registered User');
         } catch (error) {
             console.error(error)

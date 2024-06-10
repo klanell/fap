@@ -1,4 +1,6 @@
-export interface RegisterFormData {
+import {AbstractFormLoginData} from "../AbstractFormLoginData";
+
+export interface RegisterFormData extends AbstractFormLoginData{
     loginName: string;
     /*WARUM???*/
     passwort: {
