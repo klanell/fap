@@ -5,7 +5,7 @@ type SubmitFormProps={
     sessionId: string;
 }
 
-export const submitForm = async (formData: StandortAenderFormData, {nutzername, sessionId}:SubmitFormProps): Promise<any> => {
+export const changeStandort = async (formData: StandortAenderFormData, {nutzername, sessionId}:SubmitFormProps): Promise<any> => {
     let response: Response;
     try {
         response = await fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandortPerAdresse` + '?land=' + formData.country + '&ort=' + formData.place + '&plz=' + formData.postalCode + '&strasse=' + formData.street, {

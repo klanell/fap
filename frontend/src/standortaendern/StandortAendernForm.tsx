@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom"
 import {MdLandscape, MdLocalPostOffice, MdPlace} from "react-icons/md";
 import {FaRoad} from "react-icons/fa";
 import {StandortAenderFormData} from "./rest/StandortAenderFormData";
-import {submitForm} from "./rest/StandortRestController";
+import {changeStandort} from "./rest/StandortRestController";
 
 
 type StandortAenderFormProps = { nutzername: string, sessionId: string }
@@ -46,7 +46,7 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAenderFormProps) =>
         setError(null);
 
         try {
-            const data = await submitForm(formData, {nutzername, sessionId});
+            const data = await changeStandort(formData, {nutzername, sessionId});
             console.log('Successfully changed location');
         } catch (error) {
             console.error(error)
