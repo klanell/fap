@@ -29,6 +29,7 @@ const RegisterForm: React.FC = () => {
     const [apiResponse, setApiResponse] = React.useState(null);
     const navigate = useNavigate();
 
+    //Wird bei jedem Change in der Form invoked und ändert das oben initialisierte Interface entsprechend
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
 
@@ -52,6 +53,7 @@ const RegisterForm: React.FC = () => {
         });
     };
 
+    //Handelt den Traffic hin zur API und feuert die Form dagegen
     const onPost = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -75,13 +77,16 @@ const RegisterForm: React.FC = () => {
             setLoading(false);
         }
     }
-
+    //Blockt den Request bei einer fehlerhaften Registrierung weg -> i.e Api sagt: Ergebnis: false und es kommt kein Redirect auf Login
     const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if(!submitted){
             event.preventDefault();
         }
     }
 
+
+    //Non - Portable Callback Hell
+    //Tatsächliche (fast) HTML-Implementierung der Komponente
 
     return (
         <div className="register-wrapper">
