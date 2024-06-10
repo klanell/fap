@@ -5,6 +5,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import L from "leaflet";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {toast} from "react-toastify";
+import "./Map.css";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,

@@ -24,23 +24,26 @@ function App() {
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
                         <div className="app">
-                            {sessionId? <>
-                            <Sidebar nutzername={nutzername}/>
-                            <main className="content">
-                                <Topbar/>
+                            {sessionId ? <>
+                                    <Sidebar nutzername={nutzername}/>
+                                    <main className="content">
+                                        <Topbar/>
+                                        <div className="MapWrapper"><Routes>
+                                            <Route path="/"
+                                                   element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
+                                            <Route path="/standortAendern" element={<StandortAendern nutzername={nutzername} sessionId={sessionId}/>}/>
+
+                                        </Routes>
+                                        </div>
+                                    </main>
+                                </>
+                                :
                                 <Routes>
                                     <Route path="/"
-                                           element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
-                                    <Route path="/standortAendern" element={<StandortAendern nutzername={nutzername} sessionId={sessionId}/>}/>
-                                </Routes>
-                            </main>
-                            </>
-                           :
-                                <Routes>
-                                    <Route path="/"
-                                           element={<LoginForm setNutzername={setNutzername} setSessionId={setSessionId}/>}/>
+                                           element={<LoginForm setNutzername={setNutzername}
+                                                               setSessionId={setSessionId}/>}/>
                                     <Route path="/register" element={<RegisterForm/>}/>
-                                </Routes> }
+                                </Routes>}
                         </div>
                     </ThemeProvider>
                 </ColorModeContext.Provider>
