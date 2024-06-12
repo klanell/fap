@@ -30,7 +30,7 @@ interface Benutzer {
     nachname: string;
 };
 
-interface Standort {
+export interface Standort {
     breitengrad: number;
     laengengrad: number;
 };
@@ -72,7 +72,7 @@ function MapComponent({ sessionId, nutzername, selectedBenutzer, liveStandOrt }:
 
     // Rendering der Karte und der Marker
     return (
-        <MapContainer center={[51.9481, 10.26517]} zoom={6} scrollWheelZoom={true} style={{ height: "50rem" }}>
+        <MapContainer center={[51.9481, 10.26517]} zoom={6} scrollWheelZoom={true} zoomControl={false} style={{ height: "50rem" }}>
             <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {marker.map((markerInstance, i) => (
                 <Marker position={[markerInstance.breitengrad, markerInstance.laengengrad]}>

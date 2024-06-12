@@ -2,7 +2,7 @@ import React, {Dispatch, useEffect} from 'react';
 import './LoginForm.css';
 import {FaUser, FaLock} from "react-icons/fa";
 import {LoginFormData} from "../rest/login/LoginFormData";
-import {postForm} from "../rest/UserRestController";
+import {checkUsernameValid, postForm} from "../rest/UserRestController";
 
 type LoginFormProps = {
     setNutzername: Dispatch<React.SetStateAction<string>>,
@@ -39,7 +39,9 @@ const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
         setError(null);
 
         try {
-            postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login').then((res: {sessionID: string}) => {
+            postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login').then((res: {
+                sessionID: string
+            }) => {
                 setSessionId(res.sessionID);
                 setNutzername(formData.loginName)
             })
@@ -69,8 +71,7 @@ const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
                     <FaLock className='icon'/>
                 </div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forgot Password?</a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Forgot Password?</a>
                 </div>
                 <button type="submit">Login</button>
                 <div className="register-link">
