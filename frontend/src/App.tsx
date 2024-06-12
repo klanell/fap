@@ -7,6 +7,7 @@ import {ColorModeContext, useMode} from "./theme";
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import {ToastContainer} from "react-toastify";
+import FriendsMapPage from "./map/FriendsMapPage";
 import LoginForm from "./login/loginForm/LoginForm";
 import StandortAendern from "./standortaendern/StandortAendernForm";
 import RegisterForm from "./login/register/RegisterForm";
@@ -27,10 +28,10 @@ function App() {
                             {sessionId ? <>
                                     <Sidebar nutzername={nutzername}/>
                                     <main className="content">
-                                        <Topbar/>
+                                        <Topbar nutzername={nutzername} sessionId={sessionId} setNutzername={setNutzername} setSessionId={setSessionId}/>
                                         <div className="MapWrapper"><Routes>
                                             <Route path="/"
-                                                   element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
+                                                   element={<FriendsMapPage nutzername={nutzername} sessionId={sessionId}/>}/>
                                             <Route path="/standortAendern" element={<StandortAendern nutzername={nutzername} sessionId={sessionId}/>}/>
 
                                         </Routes>

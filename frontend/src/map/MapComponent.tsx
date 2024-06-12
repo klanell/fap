@@ -4,7 +4,7 @@ import {MapContainer, Popup, TileLayer, Marker, useMap} from 'react-leaflet'
 import icon from "leaflet/dist/images/marker-icon.png";
 import L from "leaflet";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import "./Map.css";
 
 let DefaultIcon = L.icon({
@@ -18,6 +18,8 @@ L.Marker.prototype.options.icon = DefaultIcon;
 type MapComponentsProps = {
     sessionId: string,
     nutzername: string;
+    selectedBenutzer?: Benutzer[],
+    liveStandOrt?:Standort
 }
 
 interface Benutzer {
@@ -31,29 +33,35 @@ interface Standort {
     laengengrad: number;
 }
 
-function MapComponent({sessionId, nutzername}: MapComponentsProps) {
+function MapComponent({sessionId, nutzername, selectedBenutzer,liveStandOrt}: MapComponentsProps) {
     const [marker, setMarker] = useState<Standort[]>([]);
-    const [benutzer, setBenutzer] = useState<Benutzer[]>([]);
 
     useEffect(() => {
-        if (benutzer.length > 0) {
-            // Function to fetch and set markers
-            const fetchMarkers = async () => {
-                const newMarkers: Standort[] = [];
-                for (const user of benutzer) {
-                    try {
-                        const response = await fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandort?login=${nutzername}&session=${sessionId}&id=${user.loginName}`);
-                        const data: Standort = await response.json();
-                        newMarkers.push(data);
-                    } catch (error) {
-                        console.error(error);
-                    }
+            if (selectedBenutzer) {
+                if (selectedBenutzer.length > 0) {
+                    // Function to fetch and set markers
+                    const fetchMarkers = async () => {
+                        const newMarkers: Standort[] = [];
+                        for (const user of selectedBenutzer) {
+                            try {
+                                const response = await fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandort?login=${nutzername}&session=${sessionId}&id=${user.loginName}`);
+                                const data: Standort = await response.json();
+                                newMarkers.push(data);
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }
+                        setMarker(newMarkers);
+                    };
+                    fetchMarkers();
+                } else {
+                    setMarker([]);
                 }
-                setMarker(newMarkers);
-            };
-            fetchMarkers();
-        }
-    }, [benutzer]);
+            }
+            if(liveStandOrt){
+                marker.push(liveStandOrt);
+            }
+        },[selectedBenutzer]);
 
     useEffect(() => {
         fetch("http://localhost:8080/FAPServer/service/fapservice/getBenutzer?login=" + nutzername + "&session=" + sessionId).then(res => res.json()).then((res: {
@@ -61,9 +69,8 @@ function MapComponent({sessionId, nutzername}: MapComponentsProps) {
                                                                                                                                                                     Benutzer[]
                                                                                                                                                             }
         ) => {
-            setBenutzer(res.benutzerliste);
+            // setBenutzer(res.benutzerliste);
         }).catch(error => {
-            toast.error(error);
             console.log(error);
         })
     }, []);
@@ -79,7 +86,10 @@ function MapComponent({sessionId, nutzername}: MapComponentsProps) {
                 marker?.map((markerInstance, i) => {
                     return <Marker position={[markerInstance.breitengrad, markerInstance.laengengrad]}>
                         <Popup>
-                            {benutzer!.at(i)!.vorname} {benutzer!.at(i)!.nachname} ({benutzer!.at(i)!.loginName})
+
+                            {selectedBenutzer && selectedBenutzer.length>1 ? (<>{selectedBenutzer!.at(i)!.vorname} {selectedBenutzer!.at(i)!.nachname} ({selectedBenutzer!.at(i)!.loginName})</>) : null
+                            }
+
                         </Popup>
                     </Marker>
                 })
