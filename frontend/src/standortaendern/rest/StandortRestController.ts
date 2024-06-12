@@ -1,4 +1,5 @@
 import {StandortAenderFormData} from "./StandortAenderFormData";
+import {Bounce, toast} from "react-toastify";
 
 // Definiert die Eigenschaften für das SubmitFormComponent
 type SubmitFormProps = {
@@ -31,7 +32,17 @@ export const changeStandort = async (formData: StandortAenderFormData, {
 
         // Überprüft, ob die Anfrage erfolgreich war
         if (!response.ok) {
-            throw new Error(`HTTP error Status: ${response.status}`); // Wirft einen Fehler, wenn die Anfrage nicht erfolgreich war
+            toast.error('Keine Valide Adresse', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
 
         // Konvertiert die Antwort in JSON
@@ -59,8 +70,30 @@ export const changeStandort = async (formData: StandortAenderFormData, {
 
         // Überprüft, ob der PUT-Anruf erfolgreich war
         if (!putResponse.ok) {
-            throw new Error(`HTTP error Status: ${putResponse.status}`); // Wirft einen Fehler, wenn der PUT-Anruf nicht erfolgreich war
+            toast.error('Fehler beim Speichern', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
+
+        toast.success("Standort wurde geändert", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        })
 
         // Konvertiert die Antwort des PUT-Anrufs in JSON
         const data = await putResponse.json();

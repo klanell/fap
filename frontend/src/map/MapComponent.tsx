@@ -58,26 +58,24 @@ function MapComponent({sessionId, nutzername, selectedBenutzer,liveStandOrt}: Ma
                     setMarker([]);
                 }
             }
-            if(liveStandOrt){
-                marker.push(liveStandOrt);
+            else if(liveStandOrt){
+                const newMarkers: Standort[] = [];
+                newMarkers.push(liveStandOrt);
+                setMarker(newMarkers)
             }
         },[selectedBenutzer]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/FAPServer/service/fapservice/getBenutzer?login=" + nutzername + "&session=" + sessionId).then(res => res.json()).then((res: {
-                                                                                                                                                                "benutzerliste":
-                                                                                                                                                                    Benutzer[]
-                                                                                                                                                            }
-        ) => {
-            // setBenutzer(res.benutzerliste);
-        }).catch(error => {
-            console.log(error);
-        })
-    }, []);
+        if(liveStandOrt) {
+            const newMarkers: Standort[] = [];
+            newMarkers.push(liveStandOrt);
+            setMarker(newMarkers)
+        }
+    }, [liveStandOrt]);
 
     return (
         <MapContainer center={[51.9481, 10.26517]} zoom={6} scrollWheelZoom={true}
-                      style={{height: "50rem", width: "80rem"}}>
+                      style={{height: "50rem"}}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -87,8 +85,8 @@ function MapComponent({sessionId, nutzername, selectedBenutzer,liveStandOrt}: Ma
                     return <Marker position={[markerInstance.breitengrad, markerInstance.laengengrad]}>
                         <Popup>
 
-                            {selectedBenutzer && selectedBenutzer.length>1 ? (<>{selectedBenutzer!.at(i)!.vorname} {selectedBenutzer!.at(i)!.nachname} ({selectedBenutzer!.at(i)!.loginName})</>) : null
-                            }
+                            {selectedBenutzer? selectedBenutzer.length>0 ? (<>{selectedBenutzer!.at(i)!.vorname} {selectedBenutzer!.at(i)!.nachname} ({selectedBenutzer!.at(i)!.loginName})</>) : null : null}
+                            {liveStandOrt? nutzername : null}
 
                         </Popup>
                     </Marker>

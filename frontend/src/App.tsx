@@ -11,6 +11,7 @@ import FriendsMapPage from "./map/FriendsMapPage";
 import LoginForm from "./login/loginForm/LoginForm";
 import StandortAendern from "./standortaendern/StandortAendernForm";
 import RegisterForm from "./login/register/RegisterForm";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [theme, colorMode] = useMode();

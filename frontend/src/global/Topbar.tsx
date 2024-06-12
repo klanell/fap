@@ -4,6 +4,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {ColorModeContext} from "../theme";
+import {useNavigate} from "react-router-dom";
 
 type TopbarProps = {
     nutzername: string,
@@ -14,6 +15,8 @@ type TopbarProps = {
 const Topbar = ({nutzername, sessionId, setNutzername, setSessionId}: TopbarProps) => {
     const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
+    // Hook zum Navigieren zwischen Seiten
+    const navigate = useNavigate();
 
     function logout() {
         fetch(`http://localhost:8080/FAPServer/service/fapservice/logout`, {
@@ -29,6 +32,7 @@ const Topbar = ({nutzername, sessionId, setNutzername, setSessionId}: TopbarProp
         }).then(() => {
                 setNutzername('');
                 setSessionId('');
+            navigate('/');
             }
         );
     }
