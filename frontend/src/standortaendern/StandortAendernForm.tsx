@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
 import './StandortAendernForm.css'
 import {useNavigate} from "react-router-dom"
-
-import {MdLandscape, MdLocalPostOffice, MdPlace} from "react-icons/md";
-import {FaRoad} from "react-icons/fa";
+import {FaCity, FaGlobe, FaMapPin, FaRoad} from "react-icons/fa";
 import {StandortAenderFormData} from "./rest/StandortAenderFormData";
 import {changeStandort} from "./rest/StandortRestController";
 import MapComponent from "../map/MapComponent";
-import {toast} from "react-toastify";
 
 
 type StandortAendernFormProps = { nutzername: string, sessionId: string }
@@ -117,21 +114,21 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
                         <div className="input-container">
                             <input name="country" type="text" placeholder="Country" value={formData.country}
                                    onChange={handleChange} onBlur={handleBlur} required/>
-                            <MdLandscape className='icon-standort'/> {/* Icon für das Eingabefeld */}
+                            <FaGlobe className='icon-standort'/> {/* Icon für das Eingabefeld */}
                         </div>
                     </div>
                     <div className="input-box">
                         <div className="input-container">
                             <input name="postalCode" type="text" placeholder="Postal Code" value={formData.postalCode}
                                    onChange={handleChange} onBlur={handleBlur} required/>
-                            <MdLocalPostOffice className='icon-standort'/>
+                            <FaMapPin className='icon-standort'/>
                         </div>
                     </div>
                     <div className="input-box">
                         <div className="input-container">
                             <input name="place" type="text" placeholder="Place" value={formData.place}
                                    onChange={handleChange} onBlur={handleBlur} required/>
-                            <MdPlace className='icon-standort'/>
+                            <FaCity className='icon-standort'/>
                         </div>
                     </div>
                     <div className="input-box">
