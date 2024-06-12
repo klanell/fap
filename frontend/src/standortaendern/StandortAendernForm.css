@@ -4,3 +4,12 @@
     top: 50%;
     font-size: 16px;
 }
+.standortpage{
+    align-items:center;
+    display: inline-flex;
+    gap: 30px;
+}
+
+.map .leaflet-container{
+    width: 50rem;
+}

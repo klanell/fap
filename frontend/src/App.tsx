@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import './App.css';
-import MapComponent from "./map/MapComponent";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ColorModeContext, useMode} from "./theme";
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import {ToastContainer} from "react-toastify";
+import FriendsMapPage from "./map/FriendsMapPage";
 import LoginForm from "./login/loginForm/LoginForm";
 import StandortAendern from "./standortaendern/StandortAendernForm";
 import RegisterForm from "./login/register/RegisterForm";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -27,10 +28,10 @@ function App() {
                             {sessionId ? <>
                                     <Sidebar nutzername={nutzername}/>
                                     <main className="content">
-                                        <Topbar/>
+                                        <Topbar nutzername={nutzername} sessionId={sessionId} setNutzername={setNutzername} setSessionId={setSessionId}/>
                                         <div className="MapWrapper"><Routes>
                                             <Route path="/"
-                                                   element={<MapComponent nutzername={nutzername} sessionId={sessionId}/>}/>
+                                                   element={<FriendsMapPage nutzername={nutzername} sessionId={sessionId}/>}/>
                                             <Route path="/standortAendern" element={<StandortAendern nutzername={nutzername} sessionId={sessionId}/>}/>
 
                                         </Routes>

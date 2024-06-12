@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './StandortAendernForm.css'
 import {useNavigate} from "react-router-dom"
 
@@ -6,6 +6,8 @@ import {MdLandscape, MdLocalPostOffice, MdPlace} from "react-icons/md";
 import {FaRoad} from "react-icons/fa";
 import {StandortAenderFormData} from "./rest/StandortAenderFormData";
 import {changeStandort} from "./rest/StandortRestController";
+import MapComponent from "../map/MapComponent";
+import {toast} from "react-toastify";
 
 
 type StandortAendernFormProps = { nutzername: string, sessionId: string }
@@ -15,6 +17,11 @@ type StandortAenderFormProps = {
     nutzername: string; // Der Benutzername des aktuellen Nutzers
     sessionId: string; // Die Session-ID, die zur Identifizierung der Sitzung verwendet wird
 };
+
+interface Standort {
+    breitengrad: number;
+    laengengrad: number;
+}
 
 /**
  * Komponente zum Ändern des Standorts eines Nutzers.
@@ -36,6 +43,7 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
     // Zustände für Loading-Indikator und Fehlermeldungen
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState<String | null>(null);
+    const [standort, setStandort] = useState<Standort>();
 
     /**
      * Handler für Änderungen in den Eingabefeldern.
@@ -50,8 +58,31 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
             [name]: value,
         }));
 
-        console.log("Daten geändert!");
     };
+
+    const handleBlur = () => {
+        try {
+            fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandortPerAdresse?land=${formData.country}&ort=${formData.place}&plz=${formData.postalCode}&strasse=${formData.street}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'} // Setzt den Content-Type im Header
+            }).then(
+                res => res.json()).then((res: Standort
+            ) => {
+                if (res) {
+                    setStandort(res)
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+            // Überprüft, ob die Anfrage erfolgreich war
+
+        } catch (error) {
+            console.error(error); // Loggt Fehler
+            setError((error as Error).message); // Setzt den Fehlerstatus
+        } finally {
+            setLoading(false); // Setzt den Loading-Zustand auf false
+        }
+    }
 
     /**
      * Handler für das Absenden des Formulars.
@@ -72,47 +103,56 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
             setError((error as Error).message); // Setzt den Fehlerstatus
         } finally {
             setLoading(false); // Setzt den Loading-Zustand auf false
-            navigate('/'); // Navigiert zur Startseite
         }
     };
 
     // JSX-Struktur der Komponente
     return (
-        <div className="wrapper">
-            <h1>Standort ändern</h1>
-            <form onSubmit={handleSubmit}>
-                {/* Eingabefelder für Country, PostalCode, Place und Street */}
-                <div className="input-box">
-                    <div className="input-container">
-                        <input name="country" type="text" placeholder="Country" value={formData.country} onChange={handleChange} required />
-                        <MdLandscape className='icon-standort'/> {/* Icon für das Eingabefeld */}
+        <div className="standortpage">
+            <div className="wrapper">
+                <h1>Standort ändern</h1>
+                <form onSubmit={handleSubmit}>
+                    {/* Eingabefelder für Country, PostalCode, Place und Street */}
+                    <div className="input-box">
+                        <div className="input-container">
+                            <input name="country" type="text" placeholder="Country" value={formData.country}
+                                   onChange={handleChange} onBlur={handleBlur} required/>
+                            <MdLandscape className='icon-standort'/> {/* Icon für das Eingabefeld */}
+                        </div>
                     </div>
-                </div>
-                <div className="input-box">
-                    <div className="input-container">
-                        <input name="postalCode" type="text" placeholder="Postal Code" value={formData.postalCode} onChange={handleChange} required />
-                        <MdLocalPostOffice className='icon-standort'/>
+                    <div className="input-box">
+                        <div className="input-container">
+                            <input name="postalCode" type="text" placeholder="Postal Code" value={formData.postalCode}
+                                   onChange={handleChange} onBlur={handleBlur} required/>
+                            <MdLocalPostOffice className='icon-standort'/>
+                        </div>
                     </div>
-                </div>
-                <div className="input-box">
-                    <div className="input-container">
-                        <input name="place" type="text" placeholder="Place" value={formData.place} onChange={handleChange} required />
-                        <MdPlace className='icon-standort'/>
+                    <div className="input-box">
+                        <div className="input-container">
+                            <input name="place" type="text" placeholder="Place" value={formData.place}
+                                   onChange={handleChange} onBlur={handleBlur} required/>
+                            <MdPlace className='icon-standort'/>
+                        </div>
                     </div>
-                </div>
-                <div className="input-box">
-                    <div className="input-container">
-                        <input name="street" type="text" placeholder="Street" value={formData.street} onChange={handleChange} required />
-                        <FaRoad className='icon-standort'/>
+                    <div className="input-box">
+                        <div className="input-container">
+                            <input name="street" type="text" placeholder="Street" value={formData.street}
+                                   onChange={handleChange} onBlur={handleBlur} required/>
+                            <FaRoad className='icon-standort'/>
+                        </div>
                     </div>
-                </div>
-                {/* Submit-Button */}
-                <button type="submit" disabled={loading}>
-                    {loading? 'Submitting...' : 'Submit'}
-                </button>
-            </form>
+                    {/* Submit-Button */}
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Submitting...' : 'Submit'}
+                    </button>
+                </form>
+            </div>
+            <div className="map">
+                <MapComponent sessionId={sessionId} nutzername={nutzername} liveStandOrt={standort}/>
+            </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default StandortAenderForm;

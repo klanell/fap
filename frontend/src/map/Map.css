@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 50rem ;
-    width: 100% ;
+    width: 80rem ;
     background: transparent ;
     border: 7px solid rgba(255, 255, 255, .2) ;
     backdrop-filter: blur(15px) ;
@@ -19,7 +19,7 @@
     justify-content: left;
     align-items: center;
     height: 50rem;
-    width: 100%;
+    width: 80rem;
     padding-left: 5%;
 }
 
