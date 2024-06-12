@@ -26,7 +26,7 @@ interface Benutzer {
     nachname: string;
 }
 
-interface Standort {
+export interface Standort {
     breitengrad: number;
     laengengrad: number;
 }

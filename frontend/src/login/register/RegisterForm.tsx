@@ -4,9 +4,12 @@ import './RegisterForm.css';
 
 import {FaCity, FaGlobe, FaLock, FaMapPin, FaPhone, FaRoad, FaUser} from "react-icons/fa";
 import {RegisterFormData} from "../rest/register/RegisterFormData";
-import {postForm} from "../rest/UserRestController";
+import {checkUsernameValid, postForm} from "../rest/UserRestController";
 import {useNavigate} from 'react-router-dom';
-import { IoMail } from "react-icons/io5";
+import {IoMail} from "react-icons/io5";
+import MapComponent from "../../map/MapComponent";
+import RegistrationMap from "./RegistrationMap";
+import {MapContainer} from "react-leaflet";
 
 const RegisterForm: React.FC = () => {
 
@@ -54,16 +57,28 @@ const RegisterForm: React.FC = () => {
         });
     };
 
+    const checkUsername = () => {
+        const loginNameInputField = document.getElementsByName("loginName")[0] as HTMLFormElement;
+        //Sobald hier einer mehr als eine loginName-Komponente hinzufügt krachts gewaltig!
+        if (formData.loginName !== "") {
+            checkUsernameValid(formData.loginName).then((valid) => {
+                loginNameInputField.style.outline = valid ? "2px solid green" : "2px solid red";
+            });
+        } else loginNameInputField.style.outline = "none";
+    }
+
+
     //Handelt den Traffic hin zur API und feuert die Form dagegen
     const onPost = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
+
         try {
-            const data = await postForm(formData,'http://localhost:8080/FAPServer/service/fapservice/addUser');
+            const data = await postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/addUser');
             //Wenn von der API hier nix zurück kommt wirds unangenehm. Statuscodes? Never heard of her!
-            if(data.ergebnis){
+            if (data.ergebnis) {
                 setApiResponse(data.ergebnis) //Hier immer "true"
                 //Form wurde vom Server akzeptiert, wir können auf die Hauptseite redirecten
                 setSubmitted(true);
@@ -78,9 +93,10 @@ const RegisterForm: React.FC = () => {
             setLoading(false);
         }
     }
+
     //Blockt den Request bei einer fehlerhaften Registrierung weg -> i.e Api sagt: Ergebnis: false und es kommt kein Redirect auf Login
     const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        if(!submitted){
+        if (!submitted) {
             event.preventDefault();
         }
     }
@@ -93,43 +109,48 @@ const RegisterForm: React.FC = () => {
         <div className="register-wrapper">
             <form onSubmit={onPost}>
                 <div className="personalInformation">
-                <h1>Register</h1>
-                <h2>to Friends and Places</h2>
-                <div className="input-box">
-                    <div className="input-container">
-                        <input type="text" placeholder="First Name" name="vorname" value={formData.vorname} onChange={handleChange}
-                               required/>
-                        <FaUser className='register-icon'/>
+                    <h1>Register</h1>
+                    <h2>to Friends and Places</h2>
+                    <div className="input-box">
+                        <div className="input-container">
+                            <input type="text" placeholder="First Name" name="vorname" value={formData.vorname}
+                                   onChange={handleChange}
+                                   required/>
+                            <FaUser className='register-icon'/>
+                        </div>
+                        <div className="input-container">
+                            <input type="text" placeholder="Username" name="loginName" value={formData.loginName}
+                                   onChange={handleChange}
+                                   onBlur={checkUsername}
+                                   required/>
+                            <FaUser className='register-icon'/>
+                        </div>
                     </div>
-                    <div className="input-container">
-                        <input type="text" placeholder="Username" name="loginName" value={formData.loginName} onChange={handleChange}
-                               required/>
-                        <FaUser className='register-icon'/>
-                    </div>
-                </div>
 
-                <div className="input-box">
-                    <div className="input-container"><input type="text" placeholder="Surname" name="nachname" value={formData.nachname}
-                                                            onChange={handleChange}
-                                                            required/>
-                        <FaUser className='register-icon'/>
-                    </div>
-                    <div className="input-container"><input type="password" placeholder="Password"
-                                                            name="passwort"
-                                                            value={formData.passwort.passwort} onChange={handleChange}
-                                                            required/>
-                        <FaLock className='register-icon'/></div>
+                    <div className="input-box">
+                        <div className="input-container"><input type="text" placeholder="Surname" name="nachname"
+                                                                value={formData.nachname}
+                                                                onChange={handleChange}
+                                                                required/>
+                            <FaUser className='register-icon'/>
+                        </div>
+                        <div className="input-container"><input type="password" placeholder="Password"
+                                                                name="passwort"
+                                                                value={formData.passwort.passwort}
+                                                                onChange={handleChange}
+                                                                required/>
+                            <FaLock className='register-icon'/></div>
 
-                </div>
-                <div className="input-box">
-                    <div className="input-container"><input type="email" placeholder="E-Mail"
-                                                            name="email"
-                                                            value={formData.email.adresse} onChange={handleChange}
-                                                            required/>
-                        <IoMail className='register-icon'/>
                     </div>
-                    <div className="input-container"></div>
-                </div>
+                    <div className="input-box">
+                        <div className="input-container"><input type="email" placeholder="E-Mail"
+                                                                name="email"
+                                                                value={formData.email.adresse} onChange={handleChange}
+                                                                required/>
+                            <IoMail className='register-icon'/>
+                        </div>
+                        <div className="input-container"></div>
+                    </div>
                 </div>
 
                 {/*Locationstuff*/}
@@ -174,7 +195,12 @@ const RegisterForm: React.FC = () => {
                                                                 required/>
                             <FaPhone className='register-icon'/>
                         </div>
-                        <div className="input-container"></div>
+                        <div className="input-container">
+                            <div className="registrationMap">
+                                <MapComponent nutzername={formData.loginName} sessionId={""} livestandort={} ></MapComponent>
+                            </div>
+                        </div>
+
                     </div>
                     <div className="input-box">
                         <div className="input-container"><input type="text" placeholder="Please solve:"
@@ -183,18 +209,20 @@ const RegisterForm: React.FC = () => {
 
                         </div>
                         <div className="input-box"></div>
+
                     </div>
                     <div className="input-box">
-                    <div className="input-container-single">
-                        <button type="submit" disabled={loading}>
-                            {loading ? 'Submitting...' : 'Register'}
-                        </button>
-                        {/*/!*Absolutes Kriegsverbrechen, aber funktioniert*!/*/}
-                        {/*<div><FaLock className='register-icon'/></div>*/}
-                    </div>
+                        <div className="input-container-single">
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Submitting...' : 'Register'}
+                            </button>
+                            {/*/!*Absolutes Kriegsverbrechen, aber funktioniert*!/*/}
+                            {/*<div><FaLock className='register-icon'/></div>*/}
+                        </div>
                     </div>
                 </div>
             </form>
+
         </div>
     );
 }

@@ -31,12 +31,17 @@
 
 }
 
+.register-wrapper .leaflet-container{
+    display: flex !important;
+    width: 300% !important;
+    height: 150px !important;
+}
+
 .register-wrapper .input-container-single {
     display: flex;
     height: 50px;
     width: 50%;
     padding: 0 5px 0 5px;
-
 }
 
 .register-wrapper button {

@@ -2,7 +2,7 @@ import React, {Dispatch, useEffect} from 'react';
 import './LoginForm.css';
 import {FaUser, FaLock} from "react-icons/fa";
 import {LoginFormData} from "../rest/login/LoginFormData";
-import {postForm} from "../rest/UserRestController";
+import {checkUsernameValid, postForm} from "../rest/UserRestController";
 
 type LoginFormProps = {
     setNutzername: Dispatch<React.SetStateAction<string>>,
@@ -39,7 +39,9 @@ const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
         setError(null);
 
         try {
-            postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login').then((res: {sessionID: string}) => {
+            postForm(formData, 'http://localhost:8080/FAPServer/service/fapservice/login').then((res: {
+                sessionID: string
+            }) => {
                 setSessionId(res.sessionID);
                 setNutzername(formData.loginName)
             })
