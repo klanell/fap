@@ -2,10 +2,11 @@ import React from 'react';
 import '../loginForm/LoginForm.css';
 import './RegisterForm.css';
 
-import {FaLock, FaUser} from "react-icons/fa";
+import {FaCity, FaGlobe, FaLock, FaMapPin, FaPhone, FaRoad, FaUser} from "react-icons/fa";
 import {RegisterFormData} from "../rest/register/RegisterFormData";
 import {postForm} from "../rest/UserRestController";
 import {useNavigate} from 'react-router-dom';
+import { IoMail } from "react-icons/io5";
 
 const RegisterForm: React.FC = () => {
 
@@ -111,7 +112,7 @@ const RegisterForm: React.FC = () => {
                     <div className="input-container"><input type="text" placeholder="Surname" name="nachname" value={formData.nachname}
                                                             onChange={handleChange}
                                                             required/>
-                        <FaLock className='register-icon'/>
+                        <FaUser className='register-icon'/>
                     </div>
                     <div className="input-container"><input type="password" placeholder="Password"
                                                             name="passwort"
@@ -125,7 +126,7 @@ const RegisterForm: React.FC = () => {
                                                             name="email"
                                                             value={formData.email.adresse} onChange={handleChange}
                                                             required/>
-                        <FaUser className='register-icon'/>
+                        <IoMail className='register-icon'/>
                     </div>
                     <div className="input-container"></div>
                 </div>
@@ -141,13 +142,13 @@ const RegisterForm: React.FC = () => {
                             <input type="text" placeholder="City" name="ort" value={formData.ort}
                                    onChange={handleChange}
                                    required/>
-                            <FaUser className='register-icon'/>
+                            <FaCity className='register-icon'/>
                         </div>
                         <div className="input-container">
                             <input type="text" placeholder="Country" name="land" value={formData.land}
                                    onChange={handleChange}
                                    required/>
-                            <FaUser className='register-icon'/>
+                            <FaGlobe className='register-icon'/>
                         </div>
                     </div>
 
@@ -156,14 +157,14 @@ const RegisterForm: React.FC = () => {
                                                                 value={formData.plz}
                                                                 onChange={handleChange}
                                                                 required/>
-                            <FaLock className='register-icon'/>
+                            <FaMapPin className='register-icon'/>
                         </div>
                         <div className="input-container"><input type="text" placeholder="Street"
                                                                 name="strasse"
                                                                 value={formData.strasse}
                                                                 onChange={handleChange}
                                                                 required/>
-                            <FaLock className='register-icon'/></div>
+                            <FaRoad className='register-icon'/></div>
 
                     </div>
                     <div className="input-box">
@@ -171,7 +172,7 @@ const RegisterForm: React.FC = () => {
                                                                 name="telefon"
                                                                 value={formData.telefon} onChange={handleChange}
                                                                 required/>
-                            <FaUser className='register-icon'/>
+                            <FaPhone className='register-icon'/>
                         </div>
                         <div className="input-container"></div>
                     </div>
@@ -181,13 +182,16 @@ const RegisterForm: React.FC = () => {
                             <div><FaLock className='register-icon'/></div>
 
                         </div>
-                        <div className="input-container">
-                            <button type="submit" disabled={loading}>
-                                {loading ? 'Submitting...' : 'Register'}
-                            </button>
-                            {/*Absolutes Kriegsverbrechen, aber funktioniert*/}
-                            <div><FaLock className='register-icon'/></div>
-                        </div>
+                        <div className="input-box"></div>
+                    </div>
+                    <div className="input-box">
+                    <div className="input-container-single">
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Submitting...' : 'Register'}
+                        </button>
+                        {/*/!*Absolutes Kriegsverbrechen, aber funktioniert*!/*/}
+                        {/*<div><FaLock className='register-icon'/></div>*/}
+                    </div>
                     </div>
                 </div>
             </form>

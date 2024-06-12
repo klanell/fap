@@ -70,7 +70,7 @@ const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
                 </div>
                 <div className="remember-forgot">
                     <label><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forgot Password?</a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Forgot Password?</a>
                 </div>
                 <button type="submit">Login</button>
                 <div className="register-link">
