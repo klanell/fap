@@ -58,7 +58,6 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
             [name]: value,
         }));
 
-
     };
 
     const handleBlur = () => {

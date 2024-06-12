@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import './App.css';
-import MapComponent from "./map/MapComponent";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ColorModeContext, useMode} from "./theme";
