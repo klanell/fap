@@ -6,6 +6,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import {tokens} from "../theme";
 import {Menu, MenuItem, ProSidebar} from "react-pro-sidebar";
+import {MdLandscape} from "react-icons/md";
 
 type ItemProps = {
     title: string,
@@ -117,6 +118,16 @@ const Sidebar = ({nutzername}: SidebarProps) => {
                             title="Freunde Standorte"
                             to="/"
                             icon={<HomeOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+
+                    </Box>
+                    <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                        <Item
+                            title="Standort ändern"
+                            to="/standortAendern"
+                            icon={<MdLandscape/>}
                             selected={selected}
                             setSelected={setSelected}
                         />

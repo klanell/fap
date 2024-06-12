@@ -5,6 +5,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import L from "leaflet";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {toast} from "react-toastify";
+import "./Map.css";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -25,24 +26,24 @@ interface Benutzer {
     nachname: string;
 }
 
-interface Marker {
+interface Standort {
     breitengrad: number;
     laengengrad: number;
 }
 
 function MapComponent({sessionId, nutzername}: MapComponentsProps) {
-    const [marker, setMarker] = useState<Marker[]>([]);
+    const [marker, setMarker] = useState<Standort[]>([]);
     const [benutzer, setBenutzer] = useState<Benutzer[]>([]);
 
     useEffect(() => {
         if (benutzer.length > 0) {
             // Function to fetch and set markers
             const fetchMarkers = async () => {
-                const newMarkers: Marker[] = [];
+                const newMarkers: Standort[] = [];
                 for (const user of benutzer) {
                     try {
                         const response = await fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandort?login=${nutzername}&session=${sessionId}&id=${user.loginName}`);
-                        const data: Marker = await response.json();
+                        const data: Standort = await response.json();
                         newMarkers.push(data);
                     } catch (error) {
                         console.error(error);

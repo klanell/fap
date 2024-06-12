@@ -1,0 +1,25 @@
+.leaflet-container{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 50rem ;
+    width: 100% ;
+    background: transparent ;
+    border: 7px solid rgba(255, 255, 255, .2) ;
+    backdrop-filter: blur(15px) ;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, .2) ;
+    color: #fff ;
+    border-radius: 20px ;
+    padding: 30px 40px ;
+}
+
+.MapWrapper{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 50rem;
+    width: 100%;
+    padding-left: 5%;
+}
+
