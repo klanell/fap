@@ -13,17 +13,16 @@ import {Bounce, toast} from "react-toastify";
 
 const RegisterForm: React.FC = () => {
 
-    // Zu Testzwecken hinterlegt, zur Demo removen. Kanns mir echt nicht antuen bei jedem Scheiß Registrierungstest 10 fucking Felder auszufüllen
     const [formData, setFormData] = React.useState<RegisterFormData>({
         email: {adresse: ""},
-        land: "Deutschland",
+        land: "",
         loginName: "",
         nachname: "",
-        ort: "Großengottern",
+        ort: "",
         passwort: {passwort: ""},
-        plz: "99991",
-        strasse: "Marktstraße 48",
-        telefon: "036022 942 0",
+        plz: "",
+        strasse: "",
+        telefon: "",
         vorname: ""
 
     })
