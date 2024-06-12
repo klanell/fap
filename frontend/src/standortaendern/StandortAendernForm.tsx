@@ -58,6 +58,10 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
             [name]: value,
         }));
 
+
+    };
+
+    const handleBlur = () => {
         try {
             fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandortPerAdresse?land=${formData.country}&ort=${formData.place}&plz=${formData.postalCode}&strasse=${formData.street}`, {
                 method: 'GET',
@@ -65,7 +69,7 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
             }).then(
                 res => res.json()).then((res: Standort
             ) => {
-                if(res) {
+                if (res) {
                     setStandort(res)
                 }
             }).catch(error => {
@@ -79,7 +83,7 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
         } finally {
             setLoading(false); // Setzt den Loading-Zustand auf false
         }
-    };
+    }
 
     /**
      * Handler für das Absenden des Formulars.
@@ -113,28 +117,28 @@ const StandortAenderForm = ({nutzername, sessionId}: StandortAendernFormProps) =
                     <div className="input-box">
                         <div className="input-container">
                             <input name="country" type="text" placeholder="Country" value={formData.country}
-                                   onChange={handleChange} required/>
+                                   onChange={handleChange} onBlur={handleBlur} required/>
                             <MdLandscape className='icon-standort'/> {/* Icon für das Eingabefeld */}
                         </div>
                     </div>
                     <div className="input-box">
                         <div className="input-container">
                             <input name="postalCode" type="text" placeholder="Postal Code" value={formData.postalCode}
-                                   onChange={handleChange} required/>
+                                   onChange={handleChange} onBlur={handleBlur} required/>
                             <MdLocalPostOffice className='icon-standort'/>
                         </div>
                     </div>
                     <div className="input-box">
                         <div className="input-container">
                             <input name="place" type="text" placeholder="Place" value={formData.place}
-                                   onChange={handleChange} required/>
+                                   onChange={handleChange} onBlur={handleBlur} required/>
                             <MdPlace className='icon-standort'/>
                         </div>
                     </div>
                     <div className="input-box">
                         <div className="input-container">
                             <input name="street" type="text" placeholder="Street" value={formData.street}
-                                   onChange={handleChange} required/>
+                                   onChange={handleChange} onBlur={handleBlur} required/>
                             <FaRoad className='icon-standort'/>
                         </div>
                     </div>
