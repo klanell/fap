@@ -1,5 +1,5 @@
-import React from 'react';
-import '../loginForm/LoginForm.css';
+import React, {useState} from 'react';
+// import '../loginForm/LoginForm.css';
 import './RegisterForm.css';
 
 import {FaCity, FaGlobe, FaLock, FaMapPin, FaPhone, FaRoad, FaUser} from "react-icons/fa";
@@ -7,9 +7,9 @@ import {RegisterFormData} from "../rest/register/RegisterFormData";
 import {checkUsernameValid, postForm} from "../rest/UserRestController";
 import {useNavigate} from 'react-router-dom';
 import {IoMail} from "react-icons/io5";
-import MapComponent from "../../map/MapComponent";
-import RegistrationMap from "./RegistrationMap";
-import {MapContainer} from "react-leaflet";
+import MapComponent, {Standort} from "../../map/MapComponent";
+import {Bounce, toast} from "react-toastify";
+
 
 const RegisterForm: React.FC = () => {
 
@@ -32,6 +32,8 @@ const RegisterForm: React.FC = () => {
     const [submitted, setSubmitted] = React.useState(false);
     const [apiResponse, setApiResponse] = React.useState(null);
     const navigate = useNavigate();
+    const [standort, setStandort] = useState<Standort>();
+
 
     //Wird bei jedem Change in der Form invoked und ändert das oben initialisierte Interface entsprechend
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +65,19 @@ const RegisterForm: React.FC = () => {
         if (formData.loginName !== "") {
             checkUsernameValid(formData.loginName).then((valid) => {
                 loginNameInputField.style.outline = valid ? "2px solid green" : "2px solid red";
+                if (!valid) {
+                    toast.warn('Nutzername ist vergeben', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                }
             });
         } else loginNameInputField.style.outline = "none";
     }
@@ -98,6 +113,30 @@ const RegisterForm: React.FC = () => {
     const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (!submitted) {
             event.preventDefault();
+        }
+    }
+
+    const handleBlurOnLocationChange = () => {
+        try {
+            fetch(`http://localhost:8080/FAPServer/service/fapservice/getStandortPerAdresse?land=${formData.land}&ort=${formData.ort}&plz=${formData.plz}&strasse=${formData.strasse}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'} // Setzt den Content-Type im Header
+            }).then(
+                res => res.json()).then((res: Standort
+            ) => {
+                if (res) {
+                    setStandort(res)
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+            // Überprüft, ob die Anfrage erfolgreich war
+
+        } catch (error) {
+            console.error(error); // Loggt Fehler
+            setError((error as Error).message); // Setzt den Fehlerstatus
+        } finally {
+            setLoading(false); // Setzt den Loading-Zustand auf false
         }
     }
 
@@ -162,12 +201,14 @@ const RegisterForm: React.FC = () => {
                         <div className="input-container">
                             <input type="text" placeholder="City" name="ort" value={formData.ort}
                                    onChange={handleChange}
+                                   onBlur={handleBlurOnLocationChange}
                                    required/>
                             <FaCity className='register-icon'/>
                         </div>
                         <div className="input-container">
                             <input type="text" placeholder="Country" name="land" value={formData.land}
                                    onChange={handleChange}
+                                   onBlur={handleBlurOnLocationChange}
                                    required/>
                             <FaGlobe className='register-icon'/>
                         </div>
@@ -177,6 +218,7 @@ const RegisterForm: React.FC = () => {
                         <div className="input-container"><input type="text" placeholder="Postal Code" name="plz"
                                                                 value={formData.plz}
                                                                 onChange={handleChange}
+                                                                onBlur={handleBlurOnLocationChange}
                                                                 required/>
                             <FaMapPin className='register-icon'/>
                         </div>
@@ -184,6 +226,7 @@ const RegisterForm: React.FC = () => {
                                                                 name="strasse"
                                                                 value={formData.strasse}
                                                                 onChange={handleChange}
+                                                                onBlur={handleBlurOnLocationChange}
                                                                 required/>
                             <FaRoad className='register-icon'/></div>
 
@@ -197,7 +240,8 @@ const RegisterForm: React.FC = () => {
                         </div>
                         <div className="input-container">
                             <div className="registrationMap">
-                                <MapComponent nutzername={formData.loginName} sessionId={""} livestandort={} ></MapComponent>
+                                <MapComponent nutzername={formData.loginName} sessionId={""}
+                                              liveStandOrt={standort}></MapComponent>
                             </div>
                         </div>
 
@@ -216,8 +260,12 @@ const RegisterForm: React.FC = () => {
                             <button type="submit" disabled={loading}>
                                 {loading ? 'Submitting...' : 'Register'}
                             </button>
-                            {/*/!*Absolutes Kriegsverbrechen, aber funktioniert*!/*/}
-                            {/*<div><FaLock className='register-icon'/></div>*/}
+                        </div>
+                    </div>
+                    <div className="input-box">
+                        <div className="input-container-single">
+                            <div className="register-link"><p>Already registered? <a href="/">Login</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>

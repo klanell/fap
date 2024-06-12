@@ -71,7 +71,6 @@ const LoginForm = ({setNutzername, setSessionId}: LoginFormProps) => {
                     <FaLock className='icon'/>
                 </div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox"/>Remember me</label>
                     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Forgot Password?</a>
                 </div>
                 <button type="submit">Login</button>
