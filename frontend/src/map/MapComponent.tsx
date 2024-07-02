@@ -59,6 +59,9 @@ function MapComponent({ sessionId, nutzername, selectedBenutzer, liveStandOrt }:
         } else if (liveStandOrt) {
             const newMarkers: Standort[] = [liveStandOrt];
             setMarker(newMarkers);
+        } else{
+            const newMarkers: Standort[] = [];
+            setMarker(newMarkers);
         }
     }, [selectedBenutzer]); // Abhängigkeit dieses Effekts von selectedBenutzer
 
@@ -77,7 +80,7 @@ function MapComponent({ sessionId, nutzername, selectedBenutzer, liveStandOrt }:
             {marker.map((markerInstance, i) => (
                 <Marker position={[markerInstance.breitengrad, markerInstance.laengengrad]}>
                     <Popup>
-                        {selectedBenutzer && selectedBenutzer.length > 0? (
+                        {selectedBenutzer && selectedBenutzer.length > 0 && selectedBenutzer[i]? (
                             <>
                                 {`${selectedBenutzer[i].vorname} ${selectedBenutzer[i].nachname} (${selectedBenutzer[i].loginName})`}
                             </>
